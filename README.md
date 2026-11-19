@@ -2,7 +2,7 @@
   🌐 <strong>Language / Idioma:</strong> 🇺🇸 <strong>English</strong> | <a href="./README.es.md">🇦🇷 Leer en Español</a>
 </div>
 
-# ⚡ Zero-Cost Automated Quoting Engine — End-to-End Service Design & DesignOps Case Study
+# Zero-Cost Automated Quoting Engine — End-to-End Service Design & DesignOps Case Study
 
 ![Role](https://img.shields.io/badge/Role-Senior_Product_Designer_%26_DesignOps_Builder-0A66C2?style=for-the-badge)
 ![Stack](https://img.shields.io/badge/Stack-HTML5%2FCSS3_%7C_Jotform_%7C_GSheets_%7C_Apps_Script_%7C_GSlides-10B981?style=for-the-badge)
