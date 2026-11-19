@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tu Presupuesto</title>
+  
+  <!-- FUENTES CORPORATIVAS (Antonio + Fira Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@700&family=Fira+Sans:wght@400;500;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ls-yellow: #FFD500;
+      --ls-red:    #D70613;
+      --ls-black:  #000000;
+      --ls-gray:   #6e6e6e;
+      --text-main: #111;
+      --white:     #ffffff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Fira Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #ffd200; 
+      background: linear-gradient(135deg, #ffd200, #ffad00);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column; 
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .container {
+      width: min(720px, 88vw);
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(
+        135deg, 
+        rgba(255, 255, 255, 0.18) 0%, 
+        rgba(255, 255, 255, 0.05) 100%
+      );
+      border-radius: 20px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-top-color: rgba(255, 255, 255, 0.6);
+      border-left-color: rgba(255, 255, 255, 0.6);
+      box-shadow: 
+        0 8px 32px 0 rgba(0, 0, 0, 0.1),
+        inset 0 0 30px rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease-in-out;
+    }
+
+    /* Estado de espera asíncrona (Polling activo) */
+    .container.procesando {
+      background: linear-gradient(
+        135deg, 
+        rgba(215, 6, 19, 0.55) 0%, 
+        rgba(215, 6, 19, 0.35) 100%
+      );
+      border-color: rgba(255, 255, 255, 0.3);
+      border-top-color: rgba(255, 255, 255, 0.7);
+      box-shadow: 0 15px 40px 0 rgba(215, 6, 19, 0.35), inset 0 0 30px rgba(255, 255, 255, 0.1);
+    }
+
+    .container.procesando h1 {
+      color: var(--white);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    #mensajeEstado {
+      opacity: 0;
+      color: rgba(255,255,255,0); 
+      transform: scale(0.95);
+      transition: all 0.3s ease-out;
+    }
+
+    .container.procesando #mensajeEstado {
+      opacity: 1;
+      transform: scale(1);
+      color: #fff700; 
+      text-shadow: 0 0 10px #ffad00, 0 0 20px #ffad00;
+      font-weight: 500;
+    }
+
+    .container.listo #mensajeEstado {
+      opacity: 1;
+      transform: scale(1);
+      color: var(--text-main);
+      text-shadow: none;
+      transition: all 0.3s ease;
+    }
+    
+    .logo {
+      display: block;
+      margin: 29px auto 50px auto; 
+      max-width: 130px;         
+      height: auto;
+      width: 100%;
+      pointer-events: none;       
+      user-select: none;           
+      transition: transform 0.3s ease;
+    }
+
+    h1 {
+      font-size: clamp(28px, 42px, 42px);
+      margin: 0 0 16px;
+      font-weight: 900; 
+      line-height: 1.1;
+      transition: color 0.3s ease-in-out;
+    }
+    @media (max-width: 400px) { h1 { font-size: 28px; } }
+
+    p.lead {
+      font-size: clamp(18px, 4vw, 22px);
+      font-weight: 500;
+      opacity: 0.9;
+      min-height: 1.2em;
+      width: min(100%, 480px);
+      margin: 0 auto 32px auto;
+    }
+
+    .btn {
+      display: flex; 
+      align-items: center;
+      justify-content: center;
+      width: min(100%, 480px);
+      margin: 16px auto;
+      padding: 20px 24px;
+      border-radius: 16px;
+      text-decoration: none;
+      color: var(--white);
+      font-family: 'Antonio', sans-serif;
+      font-weight: 700;
+      font-size: 20px; 
+      letter-spacing: 0.5px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s;
+      border: 1px solid rgba(0, 0, 0, 0.05); 
+      border-top: 1px solid rgba(255, 255, 255, 0.4); 
+      border-left: 1px solid rgba(255, 255, 255, 0.4); 
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);    
+      cursor: pointer;
+    }
+
+    .btn:active { transform: scale(0.98); }
+
+    .plus-sign {
+      font-size: 42px;
+      font-weight: 900;      
+      line-height: 0;        
+      margin-left: 6px;      
+      position: relative;    
+      top: -4px;             
+    }
+
+    .btn.pdf { 
+      background-color: var(--ls-red);
+      box-shadow: 0 10px 25px -5px rgba(215, 6, 19, 0.5);
+    }
+
+    .btn.wa { 
+      background-color: var(--ls-black); 
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+    
+    .btn.new { 
+      background-color: var(--ls-gray); 
+      font-size: 20px;
+      box-shadow: 0 10px 25px -5px rgba(110, 110, 110, 0.5);
+    }
+    
+    .btn:hover { 
+      opacity: 0.95; 
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.3); 
+    }
+    
+    .btn.disabled {
+      opacity: 0.9;
+      pointer-events: none;
+      background-color: rgba(255, 255, 255, 0.2); 
+      color: rgba(255, 255, 255, 0.9); 
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: none; 
+      cursor: wait;
+    }
+
+    .footer-note {
+      font-size: 13px;
+      opacity: 0.6;
+      margin-top: 24px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      transition: color 0.3s ease-in-out;
+    }
+
+    .container.procesando .footer-note { color: rgba(255,255,255,0.8); }
+
+    @media (min-width: 1024px) {
+      .container, .logo { transform: scale(0.85); }
+      .logo { margin-bottom: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+  <img 
+    src="YOUR_BRAND_LOGO_URL_HERE" 
+    alt="Lubricantes Sur" 
+    class="logo" 
+    width="130" height="auto"
+  />
+
+  <main class="container">
+    
+    <h1>¡Hola, <?= nombre ?>!</h1>
+    
+    <p id="mensajeEstado" class="lead"></p>
+
+    <a id="btnPdf" class="btn pdf" href="<?= pdfUrl ?>" target="_blank" rel="noopener noreferrer">
+      Abrir Presupuesto
+    </a>
+
+    <a id="btnWa" class="btn wa" href="<?= waUrl ?>" target="_blank" rel="noopener noreferrer">
+      Enviar a WhatsApp
+    </a>
+
+    <a id="btnNew" class="btn new" href="https://form.jotform.com/YOUR_JOTFORM_ID">
+      Otro Presupuesto <span class="plus-sign">+</span>
+    </a>
+
+    <p class="footer-note">
+      Los botones se habilitarán automáticamente en menos de 1 minuto.
+    </p>
+  </main>
+
+  <script>
+    "use strict"; 
+
+    const SUBMISSION_ID = "<?= xid ?>"; 
+    
+    const TXT_ESPERA = "En un momento los botones estarán listos...";
+    const TXT_LISTO  = "El presupuesto está listo para descargar o enviar.";
+    
+    const POLLING_INTERVAL_MS = 4000;
+    const MAX_ATTEMPTS = 30;
+    let pollingInterval;
+    let attempts = 0;
+
+    const elements = {};
+
+    document.addEventListener("DOMContentLoaded", () => {
+      elements.btnPdf = document.getElementById("btnPdf");
+      elements.btnWa  = document.getElementById("btnWa");
+      elements.msg    = document.getElementById("mensajeEstado");
+      elements.card   = document.querySelector('.container');
+      elements.title  = document.querySelector('h1');
+
+      const needsPollingPdf = checkInitialState(elements.btnPdf);
+      const needsPollingWa  = checkInitialState(elements.btnWa);
+
+      if ((needsPollingPdf || needsPollingWa) && SUBMISSION_ID) {
+        initProcessingState();
+      } else {
+        initReadyState();
+      }
+    });
+
+    function checkInitialState(btn) {
+      const href = btn.getAttribute('href');
+      if (!href || href.trim() === "" || href === "null" || href === "undefined") {
+        setLoading(btn);
+        return true; 
+      }
+      return false;
+    }
+
+    function setLoading(btn) {
+      btn.classList.add("disabled");
+      if (!btn.dataset.originalText) btn.dataset.originalText = btn.textContent;
+      btn.textContent = "Procesando...";
+    }
+
+    function setReady(btn, url, text) {
+      btn.href = url;
+      btn.classList.remove("disabled");
+      if(text) btn.innerHTML = text; 
+    }
+
+    function initProcessingState() {
+      elements.card.classList.add('procesando');
+      setTimeout(() => { elements.msg.textContent = TXT_ESPERA; }, 50);
+      startPolling();
+    }
+
+    function initReadyState() {
+      elements.card.classList.remove('procesando');
+      elements.card.classList.add('listo');
+      elements.msg.textContent = TXT_LISTO;
+    }
+
+    function startPolling() {
+      pollingInterval = setInterval(() => {
+        attempts++;
+        if (attempts > MAX_ATTEMPTS) {
+          clearInterval(pollingInterval);
+          alert("El proceso está demorando. Por favor recarga la página.");
+          return;
+        }
+
+        google.script.run
+          .withSuccessHandler(onPollSuccess)
+          .withFailureHandler(onPollError)
+          .pollData(SUBMISSION_ID);
+
+      }, POLLING_INTERVAL_MS);
+    }
+
+    function onPollSuccess(response) {
+      if (response && response.ready) {
+        clearInterval(pollingInterval); 
+
+        if (response.nombre && elements.title) {
+           elements.title.textContent = "¡Hola, " + response.nombre + "!";
+        }
+
+        elements.card.classList.remove('procesando');
+        elements.card.classList.add('listo');
+        elements.msg.textContent = TXT_LISTO;
+
+        setReady(elements.btnPdf, response.pdfUrl, "Abrir Presupuesto");
+        setReady(elements.btnWa, response.waUrl, "Enviar a WhatsApp");
+      }
+    }
+
+    function onPollError(err) {
+      console.error("Error de conexión:", err);
+    }
+  </script>
+</body>
+</html>

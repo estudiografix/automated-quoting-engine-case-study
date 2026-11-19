@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Presupuesto | Lubricantes Sur</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@700&family=Fira+Sans:wght@400;500;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ls-yellow: #FFD500;
+      --ls-red:    #D70613;
+      --ls-black:  #000000;
+      --ls-gray:   #6e6e6e;
+      --text-main: #111;
+      --white:     #ffffff;
+      --glass-border: rgba(255, 255, 255, 0.25);
+      --glass-highlight: rgba(255, 255, 255, 0.6);
+    }
+    
+    * { box-sizing: border-box; }
+    
+    body {
+      margin: 0;
+      font-family: 'Fira Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #ffd200; 
+      background: linear-gradient(135deg, #ffd200, #ffad00);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column; 
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center; 
+      position: relative; 
+      overflow-x: hidden;
+      padding: 20px; 
+    }
+    
+    .container {
+      width: min(720px, 88vw);
+      text-align: center;
+      padding: 50px 20px; 
+      background: linear-gradient(
+        135deg, 
+        rgba(255, 255, 255, 0.18) 0%, 
+        rgba(255, 255, 255, 0.05) 100%
+      );
+      border-radius: 20px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-top-color: var(--glass-highlight);
+      border-left-color: var(--glass-highlight);
+      box-shadow: 
+        0 8px 32px 0 rgba(0, 0, 0, 0.1),
+        inset 0 0 30px rgba(255, 255, 255, 0.05);
+      animation: slideUp 0.8s ease-out forwards;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    @keyframes slideUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      display: block;
+      margin: 0 auto 40px auto; 
+      max-width: 140px;         
+      height: auto;
+      width: 100%;
+      pointer-events: none;       
+      user-select: none;           
+    }
+    
+    h1 {
+      font-weight: 900; 
+      font-size: clamp(20px, 30px, 30px);
+      margin: 0 0 32px;
+      line-height: 1.1;
+    }
+    
+    @media (max-width: 400px) { h1 { font-size: 24px; } }
+
+    .btn {
+      display: flex; 
+      align-items: center;
+      justify-content: center;
+      width: min(100%, 480px); 
+      margin: 20px auto; 
+      padding: 16px 24px;
+      border-radius: 16px;
+      text-decoration: none;
+      color: var(--white);
+      font-family: 'Antonio', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s;
+      border: 1px solid rgba(0, 0, 0, 0.05); 
+      border-top: 1px solid rgba(255, 255, 255, 0.4); 
+      border-left: 1px solid rgba(255, 255, 255, 0.4); 
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);    
+      cursor: pointer;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .btn:active { transform: scale(0.98); }
+
+    .btn.pdf { 
+      background-color: var(--ls-red);
+      box-shadow: 0 10px 25px -5px rgba(215, 6, 19, 0.5);
+    }
+    
+    .btn.black { 
+      background-color: var(--ls-black);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+    
+    .btn:hover { 
+      opacity: 0.95; 
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.3); 
+    }
+
+    footer {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .logo-footer {
+      display: block;
+      max-width: 120px; 
+      height: auto;
+      opacity: 0; 
+      animation: fadeInFooter 1s ease-out forwards 0.3s;
+      pointer-events: none;
+      user-select: none;
+    }
+    
+    @keyframes fadeInFooter {
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="container">
+    <img 
+      src="logo_lubricantes_sur.png" 
+      alt="Lubricantes Sur" 
+      class="logo" 
+      width="140" height="auto"
+    />
+    
+    <h1>Presupuesto para:</h1>
+    
+    <!-- Flujo A: Cliente Particular (1 Vehículo) -->
+    <a class="btn pdf" href="https://form.jotform.com/YOUR_SINGLE_VEHICLE_FORM_ID">
+      1 Vehículo
+    </a>
+
+    <!-- Flujo B: Clientes Corporativos / Flotas (+ de 1 Vehículo) -->
+    <a class="btn black" href="https://form.jotform.com/YOUR_FLEET_FORM_ID">
+      + de 1 Vehículo
+    </a>
+  </main>
+  
+  <footer>
+    <img 
+      src="logo2_lubricantes_sur.png" 
+      alt="Lubricantes Sur" 
+      class="logo-footer"
+      width="120" height="auto"
+    />
+  </footer>
+
+</body>
+</html>

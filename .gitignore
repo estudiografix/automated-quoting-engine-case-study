@@ -1,0 +1,4 @@
+# macOS & Office temporary files
+.DS_Store
+~$*
+*.log

@@ -1,0 +1,209 @@
+/**
+ * @fileoverview Sistema de Estilos Inyectado en Jotform (White-Labeling & Mobile-First UX)
+ * Propósito: Eliminar la apariencia de formulario externo y unificar la experiencia visual
+ * con la Landing Inicial y la WebApp Post-Envío bajo los tokens de marca de Lubricantes Sur.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700;800;900&display=swap');
+
+/* =========================
+   1. TIPOGRAFÍA GLOBAL
+========================= */
+* {
+    font-family : 'Fira Sans', sans-serif !important;
+}
+
+.form-header-group h1, 
+#header_1, 
+[data-type="control_head"] h1 {
+    font-family : 'Fira Sans', sans-serif !important;
+    font-weight : 900 !important;
+    font-size : 24px !important;
+    color : #000 !important;
+    padding-left : 20px !important;
+}
+
+/* =========================
+   2. FONDO CORPORATIVO CON GRADIENTE
+========================= */
+html.supernova {
+    background : linear-gradient(135deg, #ffd500 0%, #f8b700 100%) !important;
+    background-attachment : fixed !important;
+    padding : 30px 0 !important;
+}
+
+/* =========================
+   3. TARJETA CONTENEDORA (MOBILE-FIRST)
+========================= */
+html.supernova .form-all {
+    max-width : 850px !important;
+    width : calc(100% - 20px) !important;
+    margin : 0 auto !important;
+    background-color : #fff !important;
+    border-radius : 20px !important;
+    box-shadow : 0 7px 8px -4px rgba(0, 0, 0, 0.12), 
+                0 12px 17px 2px rgba(0, 0, 0, 0.08) !important;
+    padding : 25px 22px 15px 22px !important;
+    box-sizing : border-box !important;
+    font-size : 19px !important;
+    position : relative !important;
+    overflow : visible !important;
+}
+
+/* =========================
+   4. JERARQUÍA DE SUBTÍTULOS Y LABELS
+========================= */
+.form-header-group h2, .form-subHeader {
+    font-size : 18px !important;
+    font-weight : 800 !important;
+    color : #d70613 !important;
+    border : none !important;
+    padding-left : 20px !important;
+}
+
+.form-label {
+    font-size : 19px !important;
+    font-weight : 600 !important;
+    margin-bottom : 4px !important;
+}
+
+/* =========================
+   5. FEEDBACK TÁCTIL Y ESTADOS DE FOCO (ACCESIBILIDAD EN MOSTRADOR)
+========================= */
+.form-line-active {
+    background-color : transparent !important;
+    border : none !important;
+    box-shadow : none !important;
+}
+
+input, textarea, select {
+    font-size : 17px !important;
+    border : 1px solid #ccc !important;
+    padding : 8px !important;
+    outline : none !important;
+    transition : all 0.2s ease;
+}
+
+/* HOVER: Halo Amarillo Institucional */
+input:hover, textarea:hover, select:hover {
+    border-color : #ffd500 !important;
+    box-shadow : 0 0 0 3px rgba(255, 213, 0, 0.5) !important;
+}
+
+/* FOCUS: Borde y Halo Rojo Institucional (Alta visibilidad en móvil) */
+input:focus, 
+textarea:focus, 
+select:focus, 
+.form-line-active input, 
+.form-line-active textarea, 
+.form-line-active select {
+    border-color : #d70613 !important;
+    box-shadow : 0 0 0 3px rgba(215, 6, 19, 0.25) !important;
+    outline : none !important;
+    background-color : #fff !important;
+}
+
+select, input[type="radio"] {
+    accent-color : #d70613 !important;
+}
+
+/* =========================
+   6. RADIO BUTTONS PERSONALIZADOS
+========================= */
+input[type="radio"]:checked + label::after {
+    background-color : #d70613 !important;
+}
+
+input[type="radio"]:checked + label::before {
+    border-color : #d70613 !important;
+}
+
+input[type="radio"]:focus + label::before,
+input[type="radio"]:hover + label::before {
+    border-color : #ffd500 !important;
+    box-shadow : 0 0 0 3px rgba(255, 213, 0, 0.5) !important;
+}
+
+/* =========================
+   7. MATRIZ DE ÍTEMS (PROPORCIONES OPTIMIZADAS PARA MÓVIL)
+========================= */
+.form-matrix-column-headers {
+    background-color : #000000 !important;
+    color : #ffffff !important;
+    border : 1px solid #ffffff !important;
+    padding : 8px 4px !important;
+}
+
+.form-matrix-row-headers {
+    background-color : #ffd500 !important;
+    color : #000000 !important;
+    border : 1px solid #ffffff !important;
+    width : 35px !important;
+}
+
+.form-matrix-table {
+    border-collapse : collapse !important;
+    width : 100% !important;
+}
+
+/* Columna Cantidad: angosta (60px) */
+.form-matrix-table th:nth-child(2), .form-matrix-table td:nth-child(2) {
+    width : 60px !important;
+    min-width : 60px !important;
+    max-width : 60px !important;
+}
+
+/* Columna Descripción: flexible (auto) */
+.form-matrix-table th:nth-child(3), .form-matrix-table td:nth-child(3) {
+    width : auto !important;
+}
+
+/* Columna Importe Unitario: fija (90px) */
+.form-matrix-table th:nth-child(4), .form-matrix-table td:nth-child(4) {
+    width : 90px !important;
+    min-width : 90px !important;
+    max-width : 90px !important;
+}
+
+.form-matrix-values td input:focus {
+    position : static !important;
+    width : 100% !important;
+    height : auto !important;
+    z-index : auto !important;
+    box-shadow : inset 0 0 0 1px #d70613 !important;
+    border : 1px solid #d70613 !important;
+}
+
+/* =========================
+   8. NAVEGACIÓN (BOTONES ATRÁS / SEGUIR)
+========================= */
+.form-all .form-submit-button, 
+.form-all .form-submit-back,
+.form-all .form-pagebreak-next,
+.form-all .form-pagebreak-back {
+    border-radius : 12px !important;
+    padding : 12px 28px !important;
+    font-size : 16px !important;
+    color : #fff !important;
+    border : none !important;
+    font-weight : 600 !important;
+    display : inline-block !important;
+}
+
+.form-all .form-submit-button, .form-all .form-pagebreak-next {
+    background : #d70613 !important;
+}
+
+.form-all .form-submit-back, .form-all .form-pagebreak-back {
+    background : #000000 !important;
+    margin-right : 20px !important;
+}
+
+.form-pagebreak, .form-buttons-wrapper {
+    width : 100% !important;
+    border-top : 1px solid #ebebeb !important;
+    margin-top : 30px !important;
+    padding-top : 15px !important;
+    display : flex !important;
+    justify-content : center !important;
+}
